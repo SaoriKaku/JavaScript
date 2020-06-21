@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+    函数function
+    1. 也是一个对象，使用typeof检查一个函数对象时，会返回function
+    
+    2. 封装到函数中的代码不会立即执行
+    1. 创建一个函数对象，可以将封装的代码以字符串的形式传递给构造函数
+    函数中的代码会在函数调用的时候执行，函数调用：语法：函数对象（）
+    var fun = new Function("console.log('Hello')");
+    2. 函数声明
+    语法：function 函数名(形参1，形参2，...，形参n) {
+        语句；
+    }
+    3. 函数表达式
+    var 函数名 = function(形参1，形参2，...，形参n) {
+        语句；
+    }
+
+    4. 形参，实参
+    1. 调用函数时，解析器不会检查实参的类型
+    可能会收到非法的参数，如果有可能则需要对参数进行类型检查
+    2. 调用函数时，解析器也不会检查实参的数目，
+    多余的实参不会被赋值
+    如果实参的数目少于形参的数量，则没有对应实参的形参将是undefined
+
+    5. return 
+    如果return 语句后不跟任何值就相当于返回一个undefined
+    如果函数中不写return 则也会返回undefined
+
+    6. 立即执行函数
+    函数定义完，立即被执行，这种函数叫立即执行函数。
+    立即执行函数往往只会执行一次。
+    (function(){
+        var sum = a + b;
+        alert("sum = " + sum);
+    })(1, 2);
+
+    7. 函数也可以成为对象的属性
+    如果函数作为一个对象的属性保存，那么我们称这个函数是这个对象的方法
+    调用这个函数就是调用对象的方法(method)
+    obj.sayName = function() {
+        console.log(obj.name);
+    };
+    obj.sayName();
+
+    8. 枚举对象中的属性for in 语句
+    for(var 变量 in 对象) {
+    }
+    对象中有几个属性，循环体就会执行几次，每次执行时，都将对象中的一个属性的名字复制给变量
+    for(var n in obj) {
+        console.log(obj.n); // 结果都是undefined
+        console.log(obj[n]); // 这个才是对的
+    }
+
+    9. 作用域
+    作用域指一个变量的作用范围，在js中有两种作用域：
+    1. 全局作用域
+    1. 直接编写在script标签中的js代码，都在全局作用域
+    全局作用域在页面打开时创建，在页面关闭时销毁
+    2. 在全局作用域中有一个全局对象window，它代表一个浏览器的窗口，它由浏览器创建我们可以直接使用
+    在全局作用域中创建的变量都会作为window对象的属性保存
+    创建的函数都会作为window对象的方法保存
+    var a = 10;
+    console.log(window.c);
+    console.log(c);
+    3. 变量的声明提前
+    使用var关键字声明的变量，会在所有的代码执行之前被声明
+    但如果声明变量不使用var关键字，变量不会被声明提前
+    4. 函数的声明提前
+    使用函数声明形式创建的函数function 函数(){}。它会在所有代码执行之前就被创建，所以我们可以在函数声明前调用函数。
+    函数表达式创建的函数不会被提前创建。
+    fun(); // 正常
+    fun2(); // error，因为fun2是只有声明没有赋值undefined，执行到var fun2那行才会赋值
+    function fun() {
+        console.log("I am a function.");
+    }
+    var fun2 = fun2() {
+        console.log("I am a function2.");
+    };
+
+    2. 函数作用域
+    1. 调用函数时创建函数作用域，函数执行完毕以后，函数作用域销毁。
+    每调用一次函数就会创建一个新的函数作用域，他们之间是互相独立的。
+    在函数作用域中可以访问到全局作用域的变量，在全局作用域中无法访问函数作用域的变量。
+    2. 当在函数作用域操作一个变量时，它会现在自身作用域中寻找。
+    如果没有找到，则向上一级作用域中寻找，直到找到全局作用域。
+    如果全局作用域中依然没有找到，则会报错referenceError。
+    3. 在函数中要访问全局变量可以使用window对象。
+    4. 在函数作用域也有声明提前的特性：
+    使用var关键字声明的变量，会在函数中所有的代码执行之前被声明。
+    函数声明也会在函数中所有的代码执行之前执行。
+    var c = 33;
+    function fun5() {
+        console.log("c = " + c); // 33, 没有使用var，找到全局变量c
+        c = 10;
+    }
+    console.log("c = " + c); // 10，方法中c相当于重新赋值了
+    5. 在函数中，不适用var声明的变量都会成为全局变量。
+    var e = 23;
+    function fun6(e) {
+        alert(e); // undefined
+    }
+    fun6();
+    定义形参就相当于在函数作用域中声明了变量，只是没有值就没赋值
+
+    10. call() apply()
+    这两个方法都是函数对象的方法，需要通过函数对象来调用。
+    当对函数调用call()和apply()都会调用函数执行。
+    参数：
+    第一个参数：传一个object作为this
+    call()方法可以将实参在对象之后一次传递
+    apply()方法需要将实参封装到一个数组里面传递
+    function fun() {
+        alert(this);
+    }
+    fun.apply(); // window
+    fun.call(); // window
+    fun(); // window
+    obj = {};
+    fun.apply(obj); // obj
+    fun.call(obj); // obj
+    function fun(a, b) {
+        console.log("a = " + a + ", b = " + b);
+    }
+    call(obj, 2, 3);
+    apply(obj, [2, 3]);
+
+    11. arguments
+    在调用函数时，浏览器每次都会传递进两个隐含的参数：
+    1. 函数的上下文对象 this
+    2. 封装实参的对象 arguments
+    arguments是一个类数组对象，它可以通过索引来操作数据，也可以获取长度。
+    在调用函数时，我们所传递的实参都会封装到arguments中。
+    arguments.length可以用来获取实参的长度。
+    function fun() {
+        console.log(arguments.length);
+    }
+    fun("hello", true); // 2
+
+    我们及时不定义形参，也可以通过arguments来使用实参，
+    arguments[0]表示第一个实参，
+    arguments[1]表示第二个实参，
+    arguments.callee对应的是一个函数对象，就是当前正在执行的函数对象
+     --> 
+</body>
+</html>
