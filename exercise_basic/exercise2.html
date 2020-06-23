@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 2</title>
+    <style></style>
+    <script>
+        window.onload = function() {
+            // 1. #checkedAllBtn
+            var checkedAllBtn = document.getElementById("checkedAllBtn");
+            checkedAllBtn.onclick = function() {
+                var items = document.getElementsByName("items");
+                for(var i = 0; i < items.length; i++) {
+                    items[i].checked = true;
+                }
+                checkedAllBox.checked = true;
+            };
+            // 2. #checkedNoBtn
+            var checkedNoBtn = document.getElementById("checkedNoBtn");
+            checkedNoBtn.onclick = function() {
+                var items = document.getElementsByName("items");
+                for(var i = 0; i < items.length; i++) {
+                    items[i].checked = false;
+                }
+                checkedAllBox.checked = false;
+            };
+            // 3. #checkedRevBtn
+            var checkedNoBtn = document.getElementById("checkedRevBtn");
+            checkedRevBtn.onclick = function() {
+                var items = document.getElementsByName("items");
+                checkedAllBox.checked = true;
+                for(var i = 0; i < items.length; i++) {
+                    items[i].checked = !items[i].checked;
+                    if(!items[i].checked) {
+                        checkedAllBox.checked = false;
+                    }
+                }
+            };
+            // 4. #sendBtn
+            var sendBtn = document.getElementById("sendBtn");
+            sendBtn.onclick = function() {
+                var items = document.getElementsByName("items");
+                for(var i = 0; i < items.length; i++) {
+                    if(items[i].checked) {
+                        alert(items[i].value);
+                    }
+                }
+            };
+            // 5. #checkedAllBox
+            var checkedAllBox = document.getElementById("checkedAllBox");
+            checkedAllBox.onclick = function() {
+                var items = document.getElementsByName("items");
+                for(var i = 0; i < items.length; i++) {
+                    items[i].checked = this.checked;
+                }
+            };
+            // 6. items
+            // 如果四个多选框全都选中，则checkedAllBox也应该选中
+            // 如果四个多选框都没选中，则checkedAllBox也不应该选中
+            var items = document.getElementsByName("items");
+            for(var i = 0; i < items.length; i++) {
+                items[i].onclick = function() {
+                    checkedAllBox.checked = true;
+                    for(var j = 0; j < items.length; j++) {
+                        if(!items[j].checked) {
+                            checkedAllBox.checked = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <form method="post" action="">
+        你爱好的运动是？<input type="checkbox" id="checkedAllBox">全选/全不选
+        <br>
+        <input type="checkbox" name="items" value="足球">足球
+        <input type="checkbox" name="items" value="篮球">篮球
+        <input type="checkbox" name="items" value="羽毛球">羽毛球
+        <input type="checkbox" name="items" value="兵乓球">兵乓球
+        <br>
+        <input type="button" id="checkedAllBtn" value="全选">
+        <input type="button" id="checkedNoBtn" value="全不选">
+        <input type="button" id="checkedRevBtn" value="反选">
+        <input type="button" id="sendBtn" value="提交">
+    </form>
+    
+</body>
+</html>

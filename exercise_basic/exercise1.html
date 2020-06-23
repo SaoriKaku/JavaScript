@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #outer {
+            width: 500px;
+            margin: 50px auto;
+            padding: 10px;
+            background-color: pink;
+            text-align: center;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            var prev = document.getElementById("prev");
+            var next = document.getElementById("next");
+            var info = document.getElementById("info");
+            var img = document.getElementsByTagName("img")[0];
+            var imgArray = ["../images/exercise1/1.jpg", "../images/exercise1/2.jpg",
+            "../images/exercise1/3.jpg", "../images/exercise1/4.jpg", "../images/exercise1/5.jpg"];
+            var index = 0;
+            prev.onclick = function() {
+                index--;
+                if(index < 0) {
+                    index = imgArray.length - 1;
+                }
+                img.src = imgArray[index];
+                info.innerHTML = "一共" + imgArray.length + "张图片，当前第" + (index + 1) + "张";
+            }
+            next.onclick = function() {
+                index++;
+                if(index > imgArray.length - 1) {
+                    index = 0;
+                }
+                img.src = imgArray[index];
+                info.innerHTML = "一共" + imgArray.length + "张图片，当前第" + (index + 1) + "张";
+            }
+        };
+    </script>
+</head>
+<body>
+    <div id="outer">
+        <p id="info"></p>
+        <img src="../images/exercise1/1.jpg" alt="">
+        <button id="prev">上一张</button>
+        <button id="next">下一张</button>
+    </div>
+</body>
+</html>
